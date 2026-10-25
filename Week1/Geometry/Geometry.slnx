@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Geometry.App/Geometry.App.csproj" />
+  <Project Path="src/Geometry.Domain/Geometry.Domain.csproj" />
+  <Project Path="src/GeometryApp.Bad/GeometryApp.Bad.csproj" />
+</Solution>
