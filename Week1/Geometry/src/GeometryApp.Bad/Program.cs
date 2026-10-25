@@ -1,4 +1,6 @@
+using Geometry.Domain;
 using System;
+using System.Reflection.Metadata;
 
 namespace GeometryApp.Bad
 {
@@ -6,34 +8,45 @@ namespace GeometryApp.Bad
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Geometry calculator (bad version)");
+            Console.WriteLine("Geometry calculator (Soon-To-Be-Refactored)");
             Console.Write("Shape (circle/rectangle): ");
-            var shape = Console.ReadLine()?.Trim().ToLowerInvariant();
+            var input = Console.ReadLine()?.Trim().ToLowerInvariant();
 
-            if (shape == "circle")
+            // cR
+            IShape? shape = input switch
             {
-                Console.Write("Radius: ");
-                var r = double.Parse(Console.ReadLine() ?? "0");
-                var area = Math.PI * r * r;
-                var perimeter = 2 * Math.PI * r;
-                Console.WriteLine($"Area: {area:F2}");
-                Console.WriteLine($"Perimeter: {perimeter:F2}");
-            }
-            else if (shape == "rectangle")
-            {
-                Console.Write("Width: ");
-                var w = double.Parse(Console.ReadLine() ?? "0");
-                Console.Write("Height: ");
-                var h = double.Parse(Console.ReadLine() ?? "0");
-                var area = w * h;
-                var perimeter = 2 * (w + h);
-                Console.WriteLine($"Area: {area:F2}");
-                Console.WriteLine($"Perimeter: {perimeter:F2}");
-            }
-            else
+                "circle" => CreateCircle(),
+                "retangle" => CreateRetangle(),
+                _ => null
+            };
+
+            if (shape is null)
             {
                 Console.WriteLine("Unknown shape.");
+                return;
             }
+
+
+            Console.WriteLine($"Area: {shape.Area:F2}");
+            Console.WriteLine($"Perimeter: {shape.Perimeter:F2}");
+        }
+
+        private static IShape CreateCircle()
+        {
+            Console.Write("Radius: ");
+            var r = double.Parse(Console.ReadLine() ?? "0");
+
+            return new Circle(radius: r);
+        }
+
+        private static IShape CreateRetangle()
+        {
+            Console.Write("Width: ");
+            var w = double.Parse(Console.ReadLine() ?? "0");
+            Console.Write("Height: ");
+            var h = double.Parse(Console.ReadLine() ?? "0");
+
+            return new Rectangle(width: w, height: h);
         }
     }
 }
