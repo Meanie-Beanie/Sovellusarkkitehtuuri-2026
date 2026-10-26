@@ -14,12 +14,11 @@ namespace GeometryApp.Bad
              * All of the below could be placed in a separate layer
              * So we could simply leave main for setting up and starting the main logic for the program.
             */
-
             userInterface.ShowMessage("Geometry calculator (Soon-To-Be-Refactored)");
             userInterface.ShowMessage("Shape (circle/rectangle): ");
             var input = userInterface.GetInput()?.Trim().ToLowerInvariant();
 
-            // Has an issue of 
+            // Has an issue of making things less maintainable when more shapes are included.
             IShape? shape = input switch
             {
                 "circle" => shapeFactory.CreateCircle(),
@@ -32,7 +31,6 @@ namespace GeometryApp.Bad
                 userInterface.ShowMessage("Unknown shape.");
                 return;
             }
-
 
             userInterface.ShowMessage($"Area: {shape.Area():F2}");
             userInterface.ShowMessage($"Perimeter: {shape.Perimeter():F2}");
