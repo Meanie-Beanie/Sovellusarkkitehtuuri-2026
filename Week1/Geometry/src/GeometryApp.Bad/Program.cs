@@ -1,6 +1,5 @@
 using Geometry.Domain;
-using System;
-using System.Reflection.Metadata;
+using GeometryApp.Bad.Services;
 
 namespace GeometryApp.Bad
 {
@@ -8,45 +7,35 @@ namespace GeometryApp.Bad
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Geometry calculator (Soon-To-Be-Refactored)");
-            Console.Write("Shape (circle/rectangle): ");
-            var input = Console.ReadLine()?.Trim().ToLowerInvariant();
+            var userInterface = new ConsoleInterface(); // Simplified wrapper class for Console using IUserInterface
+            var shapeFactory = new ShapeBuilder(userInterface); // Logic for the shape building
 
-            // cR
+            /*
+             * All of the below could be placed in a separate layer
+             * So we could simply leave main for setting up and starting the main logic for the program.
+            */
+
+            userInterface.ShowMessage("Geometry calculator (Soon-To-Be-Refactored)");
+            userInterface.ShowMessage("Shape (circle/rectangle): ");
+            var input = userInterface.GetInput()?.Trim().ToLowerInvariant();
+
+            // Has an issue of 
             IShape? shape = input switch
             {
-                "circle" => CreateCircle(),
-                "retangle" => CreateRetangle(),
+                "circle" => shapeFactory.CreateCircle(),
+                "retangle" => shapeFactory.CreateRectangle(),
                 _ => null
             };
 
             if (shape is null)
             {
-                Console.WriteLine("Unknown shape.");
+                userInterface.ShowMessage("Unknown shape.");
                 return;
             }
 
 
-            Console.WriteLine($"Area: {shape.Area:F2}");
-            Console.WriteLine($"Perimeter: {shape.Perimeter:F2}");
-        }
-
-        private static IShape CreateCircle()
-        {
-            Console.Write("Radius: ");
-            var r = double.Parse(Console.ReadLine() ?? "0");
-
-            return new Circle(radius: r);
-        }
-
-        private static IShape CreateRetangle()
-        {
-            Console.Write("Width: ");
-            var w = double.Parse(Console.ReadLine() ?? "0");
-            Console.Write("Height: ");
-            var h = double.Parse(Console.ReadLine() ?? "0");
-
-            return new Rectangle(width: w, height: h);
+            userInterface.ShowMessage($"Area: {shape.Area:F2}");
+            userInterface.ShowMessage($"Perimeter: {shape.Perimeter:F2}");
         }
     }
 }
