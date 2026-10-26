@@ -34,8 +34,8 @@ namespace GeometryApp.Bad
             }
 
 
-            userInterface.ShowMessage($"Area: {shape.Area:F2}");
-            userInterface.ShowMessage($"Perimeter: {shape.Perimeter:F2}");
+            userInterface.ShowMessage($"Area: {shape.Area():F2}");
+            userInterface.ShowMessage($"Perimeter: {shape.Perimeter():F2}");
         }
     }
 }
